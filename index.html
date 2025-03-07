@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Women's Day</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Indie+Flower&family=Pacifico&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Background stars -->
+    <div class="star-container" id="starContainer"></div>
+    
+    <!-- Decoration circles -->
+    <div class="decoration-circle" style="width: 300px; height: 300px; left: 10%; top: 20%;"></div>
+    <div class="decoration-circle" style="width: 200px; height: 200px; left: 85%; top: 15%;"></div>
+    <div class="decoration-circle" style="width: 250px; height: 250px; left: 75%; top: 80%;"></div>
+    <div class="decoration-circle" style="width: 180px; height: 180px; left: 15%; top: 75%;"></div>
+    
+    <!-- Floating hearts -->
+    <div class="floating-hearts-container" id="floatingHeartsContainer"></div>
+    
+    <h1 class="title">Chúc mừng ngày 8/3, CEO đỉnh chóp của bé!</h1>
+    
+    <div class="puppy-container">
+      <model-viewer
+        src="toon_cute_dog.glb"
+        alt="A cute cartoon dog"
+        auto-rotate
+        camera-controls
+        camera-orbit="0deg 10deg 2m"
+        min-camera-orbit="auto auto auto"
+        max-camera-orbit="auto auto auto"
+        shadow-intensity="1"
+        environment-image="neutral"
+        exposure="1"
+        ar
+        ar-modes="webxr scene-viewer quick-look"
+      ></model-viewer>
+    </div>
+    
+    <div class="card-container">
+      <div class="message-wrapper">
+        <p class="message" id="currentMessage"></p>
+      </div>
+      
+      <div class="button-container">
+        <button class="next-button" id="nextButton">
+          Tiếp theo <span class="heart-icon">❤️</span>
+        </button>
+      </div>
+      
+      <div class="progress-bar">
+        <div class="progress" id="progressBar"></div>
+      </div>
+    </div>
+    
+    <!-- Final effect overlay (hidden by default) -->
+    <div class="fullscreen-overlay" id="finalOverlay">
+      <div class="final-message">Chúc mừng 8/3! ❤️</div>
+    </div>
+  </div>
+
+  <script>
+    // Messages array
+    const messages = [
+      "Gửi đến người phụ nữ tuyệt vời này, mong niềm vui và hạnh phúc sẽ đến với chị mỗi ngày.",
+      "Nụ cười của chị thắp sáng thế giới, nên là tập cười đi để thế giới sẽ thấy sáng hơn.",
+      "Gửi  đa-zi-năng: chúc chị luôn thành công thuận lợi trong mọi công việc.",
+      "Lời cuối cùng: chúc chị một ngày 8/3 thật vui vẻ và ý nghĩa!"
+    ];
+
+    // Current message index
+    let currentMessageIndex = 0;
+    
+    // DOM elements
+    const messageElement = document.getElementById('currentMessage');
+    const nextButton = document.getElementById('nextButton');
+    const progressBar = document.getElementById('progressBar');
+    const finalOverlay = document.getElementById('finalOverlay');
+    const starContainer = document.getElementById('starContainer');
+    const floatingHeartsContainer = document.getElementById('floatingHeartsContainer');
+    
+    // Initialize the first message
+    messageElement.textContent = messages[0];
+    updateProgressBar();
+    
+    // Create stars
+    createStars();
+    
+    // Create floating hearts
+    createFloatingHearts();
+    
+    // Event listener for next button
+    nextButton.addEventListener('click', () => {
+      if (currentMessageIndex < messages.length - 1) {
+        currentMessageIndex++;
+        messageElement.textContent = messages[currentMessageIndex];
+        updateProgressBar();
+        createFloatingHeart();
+      } else {
+        showFinalEffect();
+      }
+    });
+    
+    // Update progress bar
+    function updateProgressBar() {
+      const progress = ((currentMessageIndex + 1) / messages.length) * 100;
+      progressBar.style.width = `${progress}%`;
+    }
+    
+    // Create stars
+    function createStars() {
+      for (let i = 0; i < 50; i++) {
+        const size = Math.random() * 3 + 1;
+        const opacity = Math.random() * 0.5 + 0.3;
+        const top = Math.random() * 100;
+        const left = Math.random() * 100;
+        const duration = Math.random() * 3 + 2;
+        
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.opacity = opacity;
+        star.style.top = `${top}%`;
+        star.style.left = `${left}%`;
+        star.style.animationDuration = `${duration}s`;
+        
+        starContainer.appendChild(star);
+      }
+    }
+    
+    // Create floating hearts
+    function createFloatingHearts() {
+      for (let i = 0; i < 15; i++) {
+        const size = Math.random() * 20 + 10;
+        const colors = ['#ff69b4', '#ffb6c1', '#ffc0cb', '#ff1493', '#db7093'];
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const left = Math.random() * 100;
+        const duration = Math.random() * 15 + 15;
+        const delay = Math.random() * 10;
+        
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.style.width = `${size}px`;
+        heart.style.height = `${size}px`;
+        heart.style.backgroundColor = color;
+        heart.style.left = `${left}%`;
+        heart.style.animationDuration = `${duration}s`;
+        heart.style.animationDelay = `${delay}s`;
+        
+        floatingHeartsContainer.appendChild(heart);
+      }
+    }
+    
+    // Create a single floating heart
+    function createFloatingHeart() {
+      const size = Math.random() * 30 + 20;
+      const colors = ['#ff69b4', '#ffb6c1', '#ffc0cb', '#ff1493', '#db7093'];
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      
+      const heart = document.createElement('div');
+      heart.className = 'click-heart';
+      heart.style.width = `${size}px`;
+      heart.style.height = `${size}px`;
+      heart.style.backgroundColor = color;
+      heart.style.left = `${Math.random() * 80 + 10}%`;
+      heart.style.top = `${Math.random() * 80 + 10}%`;
+      
+      document.body.appendChild(heart);
+      
+      setTimeout(() => {
+        heart.remove();
+      }, 2000);
+    }
+    
+    // Show final effect
+    function showFinalEffect() {
+      finalOverlay.style.display = 'flex';
+      
+      // Create heart rows for final effect
+      for (let i = 0; i < 10; i++) {
+        setTimeout(() => {
+          createHeartRow();
+        }, i * 300);
+      }
+      
+      // Hide final effect after 5 seconds
+      setTimeout(() => {
+        finalOverlay.style.display = 'none';
+        currentMessageIndex = 0;
+        messageElement.textContent = messages[0];
+        updateProgressBar();
+      }, 8000);
+    }
+    
+    // Create heart row for final effect
+    function createHeartRow() {
+      const heartRow = document.createElement('div');
+      heartRow.className = 'heart-row';
+      
+      for (let i = 0; i < 10; i++) {
+        const size = Math.random() * 30 + 20;
+        const colors = ['#ff69b4', '#ffb6c1', '#ffc0cb', '#ff1493', '#db7093'];
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        
+        const heart = document.createElement('div');
+        heart.className = 'final-heart';
+        heart.style.width = `${size}px`;
+        heart.style.height = `${size}px`;
+        heart.style.backgroundColor = color;
+        
+        heartRow.appendChild(heart);
+      }
+      
+      finalOverlay.appendChild(heartRow);
+      
+      setTimeout(() => {
+        heartRow.remove();
+      }, 3000);
+    }
+  </script>
+</body>
+</html> 
